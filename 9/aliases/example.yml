@@ -1,0 +1,12 @@
+#
+# @file
+# Drush 9 aliases for the example website.
+#
+
+dev:
+  uri: 'https://www.example.com'
+  root: '/var/www/vhosts/example.com'
+  host: 'ssh.example.com'
+  user: 'example'
+  paths:
+    drush-script: '/var/www/vhosts/example.com/vendor/bin/drush'

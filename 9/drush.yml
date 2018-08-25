@@ -1,0 +1,64 @@
+#
+# @file
+# A Drush 9 configuration.
+#
+
+options:
+  # Debugging flags.
+  #cache: false
+  #v: 1
+
+  # Command aliases.
+  shell-aliases:
+    offline: 'variable-set -y --always-set maintenance_mode 1'
+    online: 'variable-delete -y --exact maintenance_mode'
+    rebuild-profile: 'make --working-copy --no-core --contrib-destination=. ./drupal-org.make.yml'
+    sim: 'site-install minimal'
+    stat: status
+
+  # Store backups in ~/.drush/backups.
+  backup-dir: '${env.home}/.drush/backups/'
+
+# Define an "aliases" directory to hold site alias files.
+drush:
+  paths:
+    alias-path:
+      - '${env.home}/.drush/aliases'
+
+# Define a list of database tables that we might only want the structure for
+# (i.e.: we do not want data from) when generating database dumps or
+# synchronizing between environments.
+sql:
+  tables:
+    common: ['cache', 'cache_*', 'history', 'migration_*', 'search_*', 'sessions', 'watchdog']
+
+# Define some command-specific defaults.
+command:
+  site:
+    install:
+      options:
+        site-mail: 'example+test-site@example.localhost'
+        account-mail: 'example+test-account@example.localhost'
+        account-name: 'admin'
+        account-pass: 'admin'
+        notify: false
+  sql:
+    dump:
+      options:
+        structure-tables-key: common
+    sync:
+      options:
+        structure-tables-key: common
+        sanitize: true
+        #source-dump: '/tmp/drush_sqlsync_source'
+        #target-dump: '/tmp/drush_sqlsync_target'
+    sync-pipe:
+      options:
+        structure-tables-key: common
+        sanitize: true
+        #source-dump: '/tmp/drush_sqlsync_source'
+        #target-dump: '/tmp/drush_sqlsync_target'
+  user:
+    login:
+      options:
+        browser: 0
